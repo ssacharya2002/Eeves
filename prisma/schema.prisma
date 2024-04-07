@@ -12,3 +12,40 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Event {
+  id           String   @id @default(uuid())
+  userId       String
+  image        String
+  name         String
+  location     String
+  hostedBy     String
+  description  String
+  price        Int
+  dateTime     DateTime
+  totalTickets Int
+  ticketSold   Int      @default(0)
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  city   City   @relation(fields: [cityId], references: [id])
+  cityId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model City {
+  id   String @id @default(uuid())
+  name String
+
+  events Event[]
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  events Event[]
+}
