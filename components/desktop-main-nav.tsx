@@ -29,7 +29,7 @@ export function DesktopNavbar({
     {
       href: `/events`,
       label: "Events",
-      active: `${pathname}` === `/$events`,
+      active: `${pathname}` === `/events`,
     },
     {
       href: `/events/new`,

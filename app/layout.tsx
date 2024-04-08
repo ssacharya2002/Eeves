@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>
+        <body > {/* className=" flex  items-center justify-center " add  className to body center every thing when zoom out */}
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

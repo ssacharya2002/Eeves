@@ -83,4 +83,32 @@ async function main() {
   })
 }
 
- main()
+//  main()
+
+
+async function categories() {
+  const categories = [
+    "Tech",
+    "Fitness & Wellness",
+    "Outdoor Adventures",
+    "Food & Dining",
+    "Arts & Culture",
+    "Music & Performing Arts",
+    "Career & Business",
+    "Socializing & Networking",
+    "Personal Growth & Self-Improvement",
+    "Hobbies & Crafts"
+  ];
+
+  for (const categoryName of categories) {
+    await prismadb.category.create({
+      data: {
+        name: categoryName
+      }
+    });
+    console.log(`Category '${categoryName}' seeded successfully.`);
+  }
+}
+
+
+categories();

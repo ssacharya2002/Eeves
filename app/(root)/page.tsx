@@ -38,7 +38,7 @@ const Home = async () => {
   });
 
   return (
-    <div>
+    <div className="px-10">
       <SearchBox />
       <div className="pt-11">
         <LandingPageHero />
