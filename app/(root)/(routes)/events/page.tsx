@@ -16,11 +16,15 @@ interface EventPageProps {
 
 const EventPage = async ({ searchParams }: EventPageProps) => {
   const categories = await prismadb.category.findMany();
-  const events = prismadb.event.findMany({
+  const events = await prismadb.event.findMany({
     where: {
-      name: searchParams.name,
-      city:searchParams.city,
-      categoryId:searchParams.categoryId
+      name: {
+        search: searchParams.name,
+      },
+      city: {
+        search: searchParams.city,
+      },
+      categoryId: searchParams.categoryId,
     },
   });
 

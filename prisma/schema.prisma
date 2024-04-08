@@ -5,20 +5,22 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Event {
   id           String   @id @default(uuid())
-  userId       String
+  organizerId  String
   image        String
   name         String
   location     String
+  city         String
   hostedBy     String
   description  String
   price        Int
@@ -29,18 +31,14 @@ model Event {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
-  city   City   @relation(fields: [cityId], references: [id])
-  cityId String
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
+  Ticket    Ticket[]
 
-model City {
-  id   String @id @default(uuid())
-  name String
-
-  events Event[]
+  @@index([categoryId])
+  // @@index([city])
+  @@fulltext([name])
+  @@fulltext([city])
 }
 
 model Category {
@@ -48,4 +46,16 @@ model Category {
   name String
 
   events Event[]
+}
+
+model Ticket {
+  id         String   @id @default(uuid())
+  userId     String
+  userName   String
+  email      String
+  event      Event    @relation(fields: [eventId], references: [id])
+  eventId    String
+  totalPrice Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

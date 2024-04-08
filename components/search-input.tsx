@@ -44,6 +44,7 @@ const SearchInput = () => {
       <Search className="absolute h-4 w-4 top-3 left-4 text-muted-foreground" />
       <Input
         onChange={onChange}
+        value={value}
         placeholder="Search..."
         className="pl-10 bg-primary/10 focus:outline-none focus:ring-slate-700 rounded-full"
       />

@@ -23,11 +23,12 @@ interface FiltersProps {
 }
 
 const Filters: React.FC<FiltersProps> = ({ data }) => {
-  const [category, setCategory] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-
   const searchParams = useSearchParams();
   const categoryId = searchParams.get("categoryId");
+
+  const [category, setCategory] = useState(searchParams.get("categoryId"));
+  const [categoryName, setCategoryName] = useState(data.find(cat => cat.id === category)?.name || null);
+
 
   const router = useRouter();
 

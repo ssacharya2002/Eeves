@@ -16,7 +16,7 @@ const Events: React.FC<EventsProps> = ({ data }) => {
           key={item.id}
           className="bg-primary/10 rounded-sm cursor-pointer hover:opacity-75 transition border-0 "
         >
-          <Link href={`/chat/${item.id}`}>
+          <Link href={`/events/${item.id}`}>
             <CardHeader className="flex items-center justify-center text-muted-foreground  ">
               <div className="relative w-full h-44">
                 <Image
@@ -34,7 +34,7 @@ const Events: React.FC<EventsProps> = ({ data }) => {
             <div className="flex flex-col items-center  text-xs text-muted-foreground p-1 gap-y-3 pb-4">
               <p className="lowercase w-full flex gap-2 ">
                 <MapPin className="w-4 h-4 text-blue-600 " />
-                {item.location}
+                {item.location},{item.city}
               </p>
 
               <div className="flex w-full items-start gap-2">

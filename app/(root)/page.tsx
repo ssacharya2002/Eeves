@@ -27,11 +27,11 @@ const Home = async () => {
 
   const events = await prismadb.event.findMany({
     where: {
-      dateTime: {
-        gte: new Date(),
-      },
+      // dateTime: {
+      //   gte: new Date(),
+      // },
     },
-    take: 6,
+    take: 4,
     orderBy: {
       dateTime: "desc",
     },
@@ -54,9 +54,9 @@ const Home = async () => {
         </div>
 
         {/* recent events */}
-        <div className="w-full flex justify-center items-center">
+        {/* <div className="w-full flex justify-center items-center"> */}
           <Events data={events} />
-        </div>
+        {/* </div> */}
 
         {/* Join eeves */}
        <JoinEeves />

@@ -14,7 +14,7 @@ const CitySearch = () => {
   const categoryId = searchParams.get("categoryId");
   const city = searchParams.get("city");
 
-  const [value, setValue] = useState(city || "");
+  const [value, setValue] = useState(searchParams.get("city") || "");
 
   const debounceValue = useDebounce<string>(value, 500);
 
@@ -45,6 +45,9 @@ const CitySearch = () => {
       <Search className="absolute h-4 w-4 top-3 left-4 text-muted-foreground" />
       <Input
       onChange={onChange}
+      value={value
+
+      }
         placeholder="City"
         className="pl-10 bg-primary/10 focus:outline-none focus:ring-slate-700 "
       />
