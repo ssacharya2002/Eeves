@@ -50,7 +50,7 @@ const formSchema = z.object({
   city: z.string().min(1, { message: "city is required" }),
   hostedBy: z.string().min(1),
   description: z.string().min(3, { message: "Description is required" }),
-  price: z.number().min(1),
+  price: z.number().min(0, { message: "Price cannot be negative" }),
   dateTime: z.date().min(new Date(), { message: "Date cannot be in the past" }),
   totalTickets: z.number().min(1, { message: "Total tickets is required" }),
   categoryId: z.string().min(1, { message: "Category is required" }),
@@ -88,22 +88,25 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
   //   }
   // }, [initialData, dateTime]);
   const isLoading = form.formState.isSubmitting;
+  const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       if (initialData) {
         // update event
         await axios.patch(`/api/event/${initialData.id}`, values);
+        toast.success("Successfully updated");
+        router.push(`/events/${initialData.id}`);
       } else {
         // create event
-
-        await axios.post("/api/event", values);
+        
+        const data = await axios.post("/api/event", values);
+        toast.success("Successfully created");
+        router.push(`/events/${data.data.id}`);
       }
 
       if (initialData) {
-        toast.success("Successfully updated");
       } else {
-        toast.success("Successfully created");
       }
     } catch (error) {
       toast.error("something went wrong");
@@ -267,6 +270,7 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
                     <FormControl>
                       <Input
                         type="number"
+                        min={0}
                         disabled={isLoading}
                         placeholder="Price of your ticket"
                         {...field}
@@ -293,6 +297,7 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
                         type="number"
                         disabled={isLoading}
                         placeholder={"100"}
+                        min={1}
                         {...field}
                         onChange={(e) =>
                           field.onChange(parseInt(e.target.value, 10))
