@@ -16,7 +16,7 @@ datasource db {
 
 model Event {
   id           String   @id @default(uuid())
-  organizerId  String
+  organizerId  String   // organizers userId clerk userId
   image        String
   name         String
   location     String

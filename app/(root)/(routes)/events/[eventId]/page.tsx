@@ -1,4 +1,4 @@
-import CreateEvent from "./create-event";
+
 
 interface EventProps{
     params:{
@@ -9,9 +9,6 @@ interface EventProps{
 
 const EventIdPage = ({params}:EventProps) => {
 
-    if(params.eventId ==="new"){
-        return <CreateEvent />
-    }
     return ( 
         <div className="px-10 ">
             event details page
