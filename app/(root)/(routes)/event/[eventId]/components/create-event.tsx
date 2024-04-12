@@ -103,6 +103,7 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
         const data = await axios.post("/api/event", values);
         toast.success("Successfully created");
         router.push(`/events/${data.data.id}`);
+        router.refresh()
       }
 
       if (initialData) {

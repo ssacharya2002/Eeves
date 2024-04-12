@@ -37,14 +37,14 @@ export function DesktopNavbar({
       active: `${pathname}` === `/event/new`,
     },
     {
-      href: `/about`,
-      label: "About",
-      active: `${pathname}` === `/about`,
+      href: `/my/events`,
+      label: "My events",
+      active: `${pathname}` === `/my/events`,
     },
     {
-      href: `/contact`,
-      label: "Contact",
-      active: `${pathname}` === `/contact`,
+      href: `/my/tickets`,
+      label: "Tickets",
+      active: `${pathname}` === `/my/tickets`,
     },
   ];
 

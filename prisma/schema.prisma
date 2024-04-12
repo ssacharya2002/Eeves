@@ -22,7 +22,7 @@ model Event {
   location     String
   city         String
   hostedBy     String
-  description  String
+  description  String @db.Text
   price        Int
   dateTime     DateTime
   totalTickets Int

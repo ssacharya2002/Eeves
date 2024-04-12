@@ -9,6 +9,44 @@ interface EventsProps {
 }
 
 const Events: React.FC<EventsProps> = ({ data }) => {
+  const Day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const Month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  function formatDate(date: Date) {
+    const day = Day[date.getDay()];
+    const month = Month[date.getMonth()];
+    const dayOfMonth = date.getDate();
+
+    return `Date: ${day}, ${dayOfMonth} ${month}`;
+  }
+
+  const timeString = (date: Date) => {
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    let AmOrPm = "AM";
+    if (hours > 12) {
+      AmOrPm = "PM";
+    }
+    let hr = 0;
+    if (hours > 13) {
+      hr = hours - 12;
+    }
+    return `${hr}:${minutes} ${AmOrPm}, IST`;
+  };
+
   return (
     <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2 pb-10 pt-8">
       {data.map((item) => (
@@ -39,9 +77,7 @@ const Events: React.FC<EventsProps> = ({ data }) => {
 
               <div className="flex w-full items-start gap-2">
                 <Calendar className="w-4 h-4 text-blue-600" />
-                {item.dateTime
-                  .toString()
-                  .replace("(India Standard Time)", "(IST)")}
+                {formatDate(item.dateTime)}, {timeString(item.dateTime)}
               </div>
               <div className="flex w-full justify-between ">
                 <div className="flex items-center gap-1">
@@ -49,8 +85,7 @@ const Events: React.FC<EventsProps> = ({ data }) => {
                   {item.ticketSold} going
                 </div>
                 <div className="flex items-center gap-1">
-                  <Ticket  className="w-4 h-4 text-blue-600" />
-                  ₹ {item.price}
+                  <Ticket className="w-4 h-4 text-blue-600" />₹ {item.price}
                 </div>
               </div>
             </div>
