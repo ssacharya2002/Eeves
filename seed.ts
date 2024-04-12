@@ -220,14 +220,14 @@ async function main() {
       "Hobbies & Crafts"
     ];
 
-    // for (const categoryName of categories) {
-    //   await prismadb.category.create({
-    //     data: {
-    //       name: categoryName
-    //     }
-    //   });
-    //   console.log(`Category '${categoryName}' seeded successfully.`);
-    // }
+    for (const categoryName of categories) {
+      await prismadb.category.create({
+        data: {
+          name: categoryName
+        }
+      });
+      console.log(`Category '${categoryName}' seeded successfully.`);
+    }
 
     const categoriesid = await prismadb.category.findMany();
     console.log(categoriesid);

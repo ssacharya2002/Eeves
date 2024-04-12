@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { auth, currentUser, useUser } from "@clerk/nextjs";
 import { Event } from "@prisma/client";
+import axios from "axios";
 import {
   Calendar,
   CircleCheck,
@@ -12,7 +13,9 @@ import {
   Ticket,
 } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 interface EventDetailsProps {
   event: Event;
@@ -38,7 +41,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
   const minutes = event.dateTime.getMinutes();
 
   const timeString = () => {
-    let AmOrPm = "AM";  
+    let AmOrPm = "AM";
     if (hours > 12) {
       AmOrPm = "PM";
     }
@@ -49,6 +52,17 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
     return `${hr}:${minutes} ${AmOrPm}, IST`;
   };
 
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get("success")) {
+      toast.success("Payment successful");
+    }
+    if (searchParams.get("canceled")) {
+      toast.error("Something went wrong.");
+    }
+  }, [searchParams]);
+
   function formatDate(date: Date) {
     const day = Day[date.getDay()];
     const month = Month[date.getMonth()];
@@ -57,7 +71,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
     return `Date: ${day}, ${dayOfMonth} ${month}`;
   }
 
-  const router = useRouter()
+  const router = useRouter();
 
   const { user } = useUser();
 
@@ -65,9 +79,16 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
 
   const handleButtonClick = async () => {
     if (isHost) {
-        router.push(`/event/${event.id}`);
+      return router.push(`/event/${event.id}`);
+    } else {
+      console.log("handleButtonClick", event.id);
+
+      const response = await axios.post(`/api/checkout`, {
+        eventId: event.id,
+      });
+      window.location = await response.data.url;
     }
-  }
+  };
 
   return (
     <div>
