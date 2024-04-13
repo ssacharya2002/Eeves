@@ -8,8 +8,8 @@ const JoinEeves = () => {
   const router = useRouter();
 
   return (
-    <div className="flex  items-center justify-center  ">
-      <div className="flex flex-col md:flex-row  items-center justify-between w-[90%] bg-primary/10 rounded-xl p-5">
+    <div className=" flex  items-center justify-center  ">
+      <div className="flex flex-col md:flex-row  items-center justify-between  bg-primary/10 rounded-xl p-5">
         <div className="flex flex-col  gap-y-12 justify-between ">
           <div className="flex flex-col gap-y-3 ">
             <h1 className="text-xl md:text-2xl font-semibold ">Join Eeves</h1>
