@@ -3,6 +3,10 @@ import Image from "next/image";
 import EventDetails from "./event-details-page";
 import { auth } from "@clerk/nextjs";
 import { log } from "console";
+import Events from "@/components/events";
+import SimilarEvents from "./components/similar-events";
+import PopularCities from "@/components/popular-cities";
+import Footer from "@/components/footer";
 
 interface EventProps {
   params: {
@@ -30,9 +34,18 @@ const EventIdPage = async ({ params }: EventProps) => {
     });
 
     if (tickets.length > 0) {
-        ticketBought = true
+      ticketBought = true;
     }
   }
+
+  const similar = await prismadb.event.findMany({
+    where: {
+      categoryId: event?.categoryId,
+      id: {
+        not: event?.id,
+      },
+    },
+  });
 
   if (!event) {
     return (
@@ -46,12 +59,22 @@ const EventIdPage = async ({ params }: EventProps) => {
   const isHost = userId === event.organizerId;
   console.log("isHost", isHost);
   log("ticketBought", ticketBought);
-  
 
   return (
     <div className="px-5 md:px-10 ">
       <div className="">
-        <EventDetails event={event} ticketBought={ticketBought} isHost={isHost} />
+        <EventDetails
+          event={event}
+          ticketBought={ticketBought}
+          isHost={isHost}
+        />
+        <SimilarEvents data={similar} />
+
+        {/* popular cities */}
+        <PopularCities />
+
+        {/* todo:testimonial  */}
+        <Footer />
       </div>
     </div>
   );
