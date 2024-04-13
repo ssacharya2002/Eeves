@@ -1,6 +1,8 @@
 import { currentUser, redirectToSignIn } from "@clerk/nextjs";
 import Tickets from "./components/tickets";
 import prismadb from "@/lib/prismadb";
+import PopularCities from "@/components/popular-cities";
+import Footer from "@/components/footer";
 
 const MyTickets = async () => {
   const user = await currentUser();
@@ -35,7 +37,7 @@ const MyTickets = async () => {
       </h1>
       {tickets.length === 0 ? (
         <div className="px-5 md:px-10 w-full h-[80vh] flex items-center justify-center">
-          <h2 className="text-xl text-slate-400">No Events found</h2>
+          <h2 className="text-xl text-slate-400">No Tickets found</h2>
         </div>
       ) : (
         <Tickets
@@ -43,6 +45,12 @@ const MyTickets = async () => {
           events={tickets.map((ticket) => ticket.event)}
         />
       )}
+
+      {/* popular cities */}
+      <PopularCities />
+
+      {/* todo:testimonial  */}
+      <Footer />
     </div>
   );
 };

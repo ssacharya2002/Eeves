@@ -37,6 +37,7 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
 import FileUpload from "@/components/file-upload";
+import Footer from "@/components/footer";
 
 interface CreateEventFormProps {
   initialData: Event | null;
@@ -374,6 +375,7 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
           </div>
         </form>
       </Form>
+
     </div>
   );
 };

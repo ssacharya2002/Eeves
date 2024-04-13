@@ -2,12 +2,15 @@ import Image from "next/image";
 import Pill from "./pill";
 import { Separator } from "./ui/separator";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="mt-10 px-10 mb-10 ">
+    <div className="mt-10  mb-10 ">
       <div className="flex w-full justify-center items-center">
-        <Pill className="px-20 md:px-32">Create your event</Pill>
+        <Link href={"/event/new"}>
+          <Pill className="px-20 md:px-32">Create your event</Pill>
+        </Link>
       </div>
 
       <Image src={"/eeves.svg"} alt="" width={200} height={100} />

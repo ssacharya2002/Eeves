@@ -1,5 +1,7 @@
 import Events from "@/components/events";
 import Filters from "@/components/filter";
+import Footer from "@/components/footer";
+import PopularCities from "@/components/popular-cities";
 import SearchInput from "@/components/search-input";
 import { Input } from "@/components/ui/input";
 import prismadb from "@/lib/prismadb";
@@ -33,6 +35,12 @@ const EventPage = async ({ searchParams }: EventPageProps) => {
       <SearchInput />
       <Filters data={categories} />
       <Events data={events} />
+
+      {/* popular cities */}
+      <PopularCities />
+
+      {/* todo:testimonial  */}
+      <Footer />
     </div>
   );
 };
