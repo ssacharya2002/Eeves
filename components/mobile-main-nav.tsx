@@ -9,6 +9,16 @@ import Image from "next/image";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Menu } from "lucide-react";
 
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import Link from "next/link";
+
 export function MobileNavbar({
   className,
   ...props
@@ -17,7 +27,6 @@ export function MobileNavbar({
   const params = useParams();
   const { userId } = useAuth();
   const router = useRouter();
-
   const routes = [
     {
       href: `/`,
@@ -27,22 +36,27 @@ export function MobileNavbar({
     {
       href: `/events`,
       label: "Events",
-      active: `${pathname}` === `/$events`,
+      active: `${pathname}` === `/events`,
     },
     {
-      href: `/events/new`,
+      href: `/event/new`,
       label: "Create Event",
-      active: `${pathname}` === `/events/new`,
+      active: `${pathname}` === `/event/new`,
     },
     {
-      href: `/about`,
-      label: "About",
-      active: `${pathname}` === `/about`,
+      href: `/my/events`,
+      label: "My events",
+      active: `${pathname}` === `/my/events`,
     },
     {
-      href: `/contact`,
-      label: "Contact",
-      active: `${pathname}` === `/contact`,
+      href: `/my/tickets`,
+      label: "Tickets",
+      active: `${pathname}` === `/my/tickets`,
+    },
+    {
+      href: `/help`,
+      label: "Help",
+      active: `${pathname}` === `/help`,
     },
   ];
 
@@ -54,7 +68,44 @@ export function MobileNavbar({
       )}
     >
       <div className="flex gap-2 px-1 items-center justify-between">
-        <Menu className="text-black  hover:cursor-pointer dark:text-white" />
+        <Sheet>
+          <SheetTrigger>
+            <Menu className="text-black  hover:cursor-pointer dark:text-white" />
+          </SheetTrigger>
+          <SheetContent
+            side={"left"}
+            className="p-0 bg-slate-950 dark:bg-primarye/5 pt-10 w-64  backdrop-blur-sm"
+          >
+            <SheetHeader className="px-4">
+              <SheetTitle>
+                <Image
+                  alt=""
+                  src={"/eeves.svg"}
+                  width={80}
+                  height={50}
+                  className="hover:cursor-pointer"
+                  onClick={() => router.push("/")}
+                />
+              </SheetTitle>
+              <div className="flex flex-col gap-2 text-start">
+                {routes.map((route) => (
+                  <Link
+                    href={route.href}
+                    key={route.href}
+                    className={cn(
+                      "text-sm font-medium transition-colors hover:text-primary p-2 hover:bg-primary/5 rounded-md",
+                      route.active
+                        ? "text-purple-500 dark:text-purple-400 bg-gray-700 "
+                        : "text-white dark:text-white hover:text-purple-400"
+                    )}
+                  >
+                    {route.label}
+                  </Link>
+                ))}
+              </div>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
 
         <Image
           alt=""

@@ -42,9 +42,9 @@ const EventPage = async ({ searchParams }: EventPageProps) => {
   return (
     <div className="px-10">
       <SearchInput />
-      <div className="md:flex md:w-full md:justify-between md:items-center">
+      <div className="md:flex md:w-full md:justify-between md:items-center ">
         <Filters data={categories} />
-        <Link href={"/event/new"}>
+        <Link href={"/event/new"} className="hidden md:block">
           <Button size={"sm"} className="flex items-center gap-2">
             <Plus className="h-4 w-4 " /> New
           </Button>
