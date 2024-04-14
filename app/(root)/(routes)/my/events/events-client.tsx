@@ -1,6 +1,6 @@
 "use client";
 
-import Events from "@/components/events";
+import Events from "./events";
 import { Button } from "@/components/ui/button";
 import { Event } from "@prisma/client";
 import { Plus } from "lucide-react";
