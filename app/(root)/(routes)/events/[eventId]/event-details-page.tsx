@@ -104,6 +104,16 @@ const EventDetails: React.FC<EventDetailsProps> = ({
     }
   };
 
+  const handleButtonHidden = () => {
+    if (isHost) {
+      return true;
+    } else if (!ticketBought && event.isArchived) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const handleButtonVariant = () => {
     if (isSold && !ticketBought && !isHost) {
       return true;
@@ -120,9 +130,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       return router.push("/sign-in");
     }
 
-    if (isHost) {
-      return router.push(`/event/${event.id}`);
-    } else if (ticketBought) {
+    if (ticketBought) {
       return router.push("/my/tickets");
     } else {
       console.log("handleButtonClick", event.id);
@@ -139,6 +147,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
 
   return (
     <div>
+      <div
+        className={`mt-5 w-full  text-center bg-red-500 p-2 rounded-md ${
+          !event.isArchived && "hidden"
+        }`}
+      >
+        <p>This event has been archived and is no longer active</p>
+      </div>
       <div className="flex flex-col md:flex-row w-full justify-center  gap-3 md:gap-10 p-5 items-center">
         <div className=" h-full flex items-start">
           <Image
@@ -189,12 +204,13 @@ const EventDetails: React.FC<EventDetailsProps> = ({
               // disabled={buttonLoader || isSold }
               disabled={handleButtonDisabled()}
               onClick={handleButtonClick}
-              className="w-full flex items-center justify-center gap-3 "
+              className={cn(
+                "w-full flex items-center justify-center gap-3 ",
+                handleButtonHidden() ? "hidden" : ""
+              )}
               variant={handleButtonVariant() ? "destructive" : "default"}
             >
-              {isHost
-                ? "Edit Event"
-                : ticketBought
+              {ticketBought
                 ? "View Ticket"
                 : isSold
                 ? "Sold Out"
@@ -205,12 +221,25 @@ const EventDetails: React.FC<EventDetailsProps> = ({
                 <></>
               )}
             </Button>
-              <Button
-                onClick={()=>router.push(`/my/events/${event.id}`)}
-                className={cn("w-full flex items-center justify-center gap-3 ", `${isHost ? "" : "hidden"}`)}
-              >
-               {isHost ? "See Participants" : " "}
-              </Button>
+
+            <Button
+              onClick={() => router.push(`/event/${event.id}`)}
+              className={cn(
+                "w-full flex items-center justify-center gap-3 ",
+                `${isHost ? "" : "hidden"}`
+              )}
+            >
+              {isHost ? "Edit Event" : " "}
+            </Button>
+            <Button
+              onClick={() => router.push(`/my/events/${event.id}`)}
+              className={cn(
+                "w-full flex items-center justify-center gap-3 ",
+                `${isHost ? "" : "hidden"}`
+              )}
+            >
+              {isHost ? "See Participants" : " "}
+            </Button>
           </div>
         </div>
       </div>

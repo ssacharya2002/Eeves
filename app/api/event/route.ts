@@ -9,7 +9,7 @@ export async function POST (request: Request) {
         const body = await request.json();
         const user = await currentUser();
 
-        const { name, image, location, city, hostedBy, description, price, dateTime, totalTickets, categoryId } = body
+        const { name, image, location, city, hostedBy, description, price, dateTime, totalTickets, categoryId , isArchived } = body
 
         if (!user || !user.id || !user.firstName) {
             return new NextResponse("Unauthorized", { status: 400 })
@@ -46,6 +46,7 @@ export async function POST (request: Request) {
                 dateTime,
                 totalTickets,
                 categoryId,
+                isArchived,
                 organizerId: user.id
             }
         })

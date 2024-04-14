@@ -38,6 +38,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useDropzone } from "react-dropzone";
 import FileUpload from "@/components/file-upload";
 import Footer from "@/components/footer";
+import { Switch } from "@/components/ui/switch";
 
 interface CreateEventFormProps {
   initialData: Event | null;
@@ -55,6 +56,7 @@ const formSchema = z.object({
   dateTime: z.date().min(new Date(), { message: "Date cannot be in the past" }),
   totalTickets: z.number().min(1, { message: "Total tickets is required" }),
   categoryId: z.string().min(1, { message: "Category is required" }),
+  isArchived: z.boolean().default(false),
 });
 
 const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
@@ -72,6 +74,7 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
       dateTime: new Date(),
       totalTickets: 0,
       categoryId: "",
+      isArchived: false,
     },
   });
 
@@ -100,7 +103,7 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
         router.push(`/events/${initialData.id}`);
       } else {
         // create event
-        
+
         const data = await axios.post("/api/event", values);
         toast.success("Successfully created");
         router.push(`/events/${data.data.id}`);
@@ -116,14 +119,28 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
   };
 
   return (
-    <div className="h-full p-4 space-y-2  mx-10">
+    <div className="h-full  p-4 space-y-2  mx-10">
       <Form {...form}>
         <div className="space-y-2 w-full text-center">
-          <div>
-            <h3 className="text-lg font-medium">Event Details</h3>
-            {/* <p className="text-sm text-muted-foreground ">
-              General information about your Event
-            </p> */}
+          <div className="space-y-2 flex justify-between items-center w-full text-center">
+
+          <h3 className="text-lg font-medium">Event Details</h3>
+
+          <FormField
+            name="isArchived"
+            render={({ field }) => (
+              <FormItem className="flex  items-center justify-center gap-2">
+                <FormLabel className="text-red-600">Archive</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           </div>
 
           <Separator className="bg-primary/10" />
@@ -375,7 +392,6 @@ const CreateEventForm = ({ initialData, categories }: CreateEventFormProps) => {
           </div>
         </form>
       </Form>
-
     </div>
   );
 };

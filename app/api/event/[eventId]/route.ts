@@ -8,7 +8,7 @@ export async function PATCH(request: Request, { params }: { params: { eventId: s
         const body = await request.json();
         const user = await currentUser();
 
-        const { name, image, location, city, hostedBy, description, price, dateTime, totalTickets, categoryId } = body
+        const { name, image, location, city, hostedBy, description, price, dateTime, totalTickets, categoryId,isArchived } = body
 
 
         if (!params.eventId) {
@@ -37,6 +37,7 @@ export async function PATCH(request: Request, { params }: { params: { eventId: s
                 description,
                 price,
                 dateTime,
+                isArchived,
                 totalTickets,
                 categoryId
             }
