@@ -7,6 +7,7 @@ import Events from "@/components/events";
 import SimilarEvents from "./components/similar-events";
 import PopularCities from "@/components/popular-cities";
 import Footer from "@/components/footer";
+import SearchBox from "@/components/search-box"
 
 interface EventProps {
   params: {
@@ -62,6 +63,7 @@ const EventIdPage = async ({ params }: EventProps) => {
 
   return (
     <div className="px-5 md:px-10 ">
+      <SearchBox />
       <div className="">
         <EventDetails
           event={event}
