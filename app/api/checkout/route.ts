@@ -87,18 +87,18 @@ export async function POST(req: Request) {
 
 
 
-    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-
-    line_items.push({
-        quantity: 1,
-        price_data: {
-            currency: 'INR',
-            product_data: {
-                name: event.name,
-            },
-            unit_amount: event.price * 100
+    const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+        {
+            quantity: 1,
+            price_data: {
+                currency: 'INR',
+                product_data: {
+                    name: event.name,
+                },
+                unit_amount: event.price * 100
+            }
         }
-    });
+    ];
 
     const session = await stripe.checkout.sessions.create({
         line_items,
@@ -107,13 +107,13 @@ export async function POST(req: Request) {
         phone_number_collection: {
             enabled: true,
         },
-        customer_email: user?.emailAddresses[0].emailAddress,
+        customer_email: user?.emailAddresses[0].emailAddress || "",
         success_url: `${process.env.FRONTEND_STORE_URL}/events/${event.id}?success=1`,
         cancel_url: `${process.env.FRONTEND_STORE_URL}/events/${event.id}?canceled=1`,
         metadata: {
             eventId: event.id,
             userId: userId,
-            email: user?.emailAddresses[0].emailAddress,
+            email: user?.emailAddresses[0].emailAddress || "",
             totalPrice: event.price,
             userName: user?.firstName + " " + user?.lastName
         },
