@@ -27,13 +27,13 @@ const Home = async () => {
 
   const events = await prismadb.event.findMany({
     where: {
-      // dateTime: {
-      //   gte: new Date(),
-      // },
+      dateTime: {
+        gte: new Date(),
+      },
     },
     take: 4,
     orderBy: {
-      dateTime: "desc",
+      dateTime: "asc",
     },
   });
 
@@ -44,8 +44,10 @@ const Home = async () => {
         <LandingPageHero />
 
         {/* top categories */}
+        <div className={`${events.length === 0 ? "hidden" : ""}`}>
+
         <div className="flex justify-center items-center  flex-col">
-          <h2 className="text-2xl font-semibold ">Top categories</h2>
+          <h2 className="text-2xl font-semibold ">Upcoming Events</h2>
           {/* <div className="flex w-full overflow-x-scroll gap-x-4">
             {categories.map(cat=> (
               <Pill key={cat}>{cat}</Pill>
@@ -54,9 +56,8 @@ const Home = async () => {
         </div>
 
         {/* recent events */}
-        {/* <div className="w-full flex justify-center items-center"> */}
           <Events data={events} />
-        {/* </div> */}
+          </div>
 
         {/* Join eeves */}
        <JoinEeves />
