@@ -38,15 +38,17 @@ export async function POST(req: Request) {
 
     if (event.type === "checkout.session.completed") {
 
-        const totalPrice = typeof session?.metadata?.totalPrice === 'number' ? session?.metadata?.totalPrice : 0;
-        const adjustedPrice = totalPrice / 100;
+        let totalPrice = 0;
+        console.log("checkout.session.completed-total price"+session?.metadata?.totalPrice);
+        totalPrice = Number(session?.metadata?.totalPrice) || 0;
+
 
         await prismadb.ticket.create({
             data: {
                 eventId: session?.metadata?.eventId || '',
                 userId: session?.metadata?.userId || '',
                 email: session?.customer_details?.email || '',
-                totalPrice: adjustedPrice,
+                totalPrice: totalPrice,
                 userName: session?.metadata?.userName || "",
                 billingAddress: addressString
             }
@@ -58,7 +60,7 @@ export async function POST(req: Request) {
             },
             data: {
                 ticketSold: {
-                    decrement: 1
+                    increment: 1
                 }
             }
         })

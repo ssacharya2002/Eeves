@@ -30,7 +30,7 @@ export async function POST (request: Request) {
         //   });
 
 
-        if(!name || !image || !location || !city || !hostedBy || !description || !price || !dateTime || !totalTickets || !categoryId) {
+        if(!name || !image || !location || !city || !hostedBy || !description || !dateTime || !totalTickets || !categoryId) {
             return new NextResponse("Missing required fields", { status: 400 })
         }
 

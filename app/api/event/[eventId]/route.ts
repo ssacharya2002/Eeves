@@ -19,7 +19,7 @@ export async function PATCH(request: Request, { params }: { params: { eventId: s
             return new NextResponse("Unauthorized", { status: 400 })
         }
 
-        if (!name || !image || !location || !city || !hostedBy || !description || !price || !dateTime || !totalTickets || !categoryId) {
+        if (!name || !image || !location || !city || !hostedBy || !description  || !dateTime || !totalTickets || !categoryId) {
             return new NextResponse("Missing required fields", { status: 400 })
         }
 
@@ -42,7 +42,7 @@ export async function PATCH(request: Request, { params }: { params: { eventId: s
             }
         })
 
-        return NextResponse.json(updatedEvent)
+        return NextResponse.json({id:updatedEvent.id})
 
 
     } catch (error) {

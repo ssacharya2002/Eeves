@@ -52,6 +52,38 @@ export async function POST(req: Request) {
         return new NextResponse("Event sold out", { status: 400 })
     }
 
+    // for free events
+    if (event.price === 0) {
+
+        console.log("free event");
+
+        const ticket = await prismadb.ticket.create({
+            data: {
+                billingAddress: "for free events does not have billing address",
+                eventId: event.id,
+                userName: user?.firstName + " " + user?.lastName,
+                email: user?.emailAddresses[0].emailAddress || "",
+                totalPrice: 0,
+                userId: userId,
+            }
+        })
+
+        await prismadb.event.update({
+            where: {
+                id: event.id
+            },
+            data: {
+                ticketSold: {
+                    increment: 1
+                }
+            }
+        })
+
+        return NextResponse.json({ url: `${process.env.FRONTEND_STORE_URL}/events/${event.id}?success=1` }, {
+            headers: corsHeaders
+        });
+    }
+
 
 
 
@@ -80,10 +112,10 @@ export async function POST(req: Request) {
         cancel_url: `${process.env.FRONTEND_STORE_URL}/events/${event.id}?canceled=1`,
         metadata: {
             eventId: event.id,
-            userId:userId,
+            userId: userId,
             email: user?.emailAddresses[0].emailAddress,
             totalPrice: event.price,
-            userName:user?.firstName + " " + user?.lastName
+            userName: user?.firstName + " " + user?.lastName
         },
     });
 
