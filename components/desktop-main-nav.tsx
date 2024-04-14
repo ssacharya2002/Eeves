@@ -46,6 +46,11 @@ export function DesktopNavbar({
       label: "Tickets",
       active: `${pathname}` === `/my/tickets`,
     },
+    {
+      href: `/help`,
+      label: "Help",
+      active: `${pathname}` === `/help`,
+    },
   ];
 
   return (
