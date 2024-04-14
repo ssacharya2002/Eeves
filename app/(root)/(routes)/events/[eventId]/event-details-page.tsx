@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { auth, currentUser, redirectToSignIn, useUser } from "@clerk/nextjs";
 import { Event } from "@prisma/client";
 import axios from "axios";
@@ -9,18 +10,19 @@ import {
   CircleCheck,
   CircleCheckBig,
   IndianRupee,
+  Loader2,
   MapPin,
   Ticket,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 interface EventDetailsProps {
   event: Event;
   ticketBought: boolean;
-  isHost:boolean
+  isHost: boolean;
 }
 
 const Day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -38,7 +40,11 @@ const Month = [
   "Nov",
   "Dec",
 ];
-const EventDetails: React.FC<EventDetailsProps> = ({ event, ticketBought ,isHost}) => {
+const EventDetails: React.FC<EventDetailsProps> = ({
+  event,
+  ticketBought,
+  isHost,
+}) => {
   const hours = event.dateTime.getHours();
   const minutes = event.dateTime.getMinutes();
 
@@ -77,8 +83,39 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, ticketBought ,isHost
 
   const { user } = useUser();
 
+  const [buttonLoader, setButtonLoader] = useState(false);
+
+  const checkSold = () => {
+    const Sold = event.totalTickets - event.ticketSold <= 0;
+    if (ticketBought === false && Sold) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const isSold = checkSold();
+
+  const handleButtonDisabled = () => {
+    if (isSold && !ticketBought && !isHost) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const handleButtonVariant = () => {
+    if (isSold && !ticketBought && !isHost) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const handleButtonClick = async () => {
+    if (!ticketBought && !isHost) {
+      setButtonLoader(true);
+    }
     if (!user) {
       return router.push("/sign-in");
     }
@@ -94,6 +131,9 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, ticketBought ,isHost
         eventId: event.id,
       });
       window.location = await response.data.url;
+    }
+    if (!ticketBought && !isHost) {
+      setButtonLoader(false);
     }
   };
 
@@ -144,13 +184,34 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, ticketBought ,isHost
             </p>
           </div>
 
-          <Button onClick={handleButtonClick} className="w-full">
-            {isHost
-              ? "Edit Event"
-              : ticketBought
-              ? "View Ticket"
-              : "Buy Ticket"}
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              // disabled={buttonLoader || isSold }
+              disabled={handleButtonDisabled()}
+              onClick={handleButtonClick}
+              className="w-full flex items-center justify-center gap-3 "
+              variant={handleButtonVariant() ? "destructive" : "default"}
+            >
+              {isHost
+                ? "Edit Event"
+                : ticketBought
+                ? "View Ticket"
+                : isSold
+                ? "Sold Out"
+                : "Buy Ticket"}
+              {buttonLoader ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <></>
+              )}
+            </Button>
+              <Button
+                onClick={()=>router.push(`/my/events/${event.id}`)}
+                className={cn("w-full flex items-center justify-center gap-3 ", `${isHost ? "" : "hidden"}`)}
+              >
+               {isHost ? "See Participants" : " "}
+              </Button>
+          </div>
         </div>
       </div>
       <div className="p-2 text-sm flex flex-col gap-4 w-full">
