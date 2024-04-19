@@ -74,7 +74,7 @@ export function MobileNavbar({
           </SheetTrigger>
           <SheetContent
             side={"left"}
-            className="p-0 bg-slate-950 dark:bg-primarye/5 pt-10 w-64  backdrop-blur-sm"
+            className="p-0 bg-slate-950 dark:bg-primary/5 pt-10 w-64  backdrop-blur-sm"
           >
             <SheetHeader className="px-4">
               <SheetTitle>

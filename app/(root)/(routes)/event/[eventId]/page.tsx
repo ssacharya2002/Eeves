@@ -29,7 +29,9 @@ const CreateEventPage = async ({ params }: CreateEventPageProps) => {
   return (
     <div>
       <CreateEvent initialData={initialData} categories={categories} />
-      <Footer />
+      <div className="px-5 md:px-10">
+        <Footer />
+      </div>
     </div>
   );
 };

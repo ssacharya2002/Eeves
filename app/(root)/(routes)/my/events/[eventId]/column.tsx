@@ -28,4 +28,8 @@ export const columns: ColumnDef<OrderColumn>[] = [
     accessorKey: "billingAddress",
     header: "Billing Address",
   },
+  {
+    accessorKey: "createdAt",
+    header: "CreatedAt",
+  },
 ];

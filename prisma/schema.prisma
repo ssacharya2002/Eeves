@@ -17,7 +17,7 @@ datasource db {
 model Event {
   id           String   @id @default(uuid())
   organizerId  String // organizers userId clerk userId
-  image        String   @db.VarChar(500)
+url  image        String   @db.VarChar(500)
   name         String
   location     String
   city         String
