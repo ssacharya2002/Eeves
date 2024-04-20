@@ -11,7 +11,7 @@ interface OrderClientProps {
 const EventTable: React.FC<OrderClientProps> = ({ data }) => {
   return (
     <>
-      <DataTable searchKey="userName" columns={columns} data={data} />
+      <DataTable searchKey="email" columns={columns} data={data} />
     </>
   );
 };
