@@ -30,6 +30,7 @@ const Home = async () => {
       dateTime: {
         gte: new Date(),
       },
+      isArchived: false,
     },
     take: 4,
     orderBy: {
@@ -48,11 +49,6 @@ const Home = async () => {
 
         <div className="flex justify-center items-center  flex-col">
           <h2 className="text-2xl font-semibold ">Upcoming Events</h2>
-          {/* <div className="flex w-full overflow-x-scroll gap-x-4">
-            {categories.map(cat=> (
-              <Pill key={cat}>{cat}</Pill>
-            ))}
-          </div> */}
         </div>
 
         {/* recent events */}
@@ -65,7 +61,6 @@ const Home = async () => {
        {/* popular cities */}
         <PopularCities />
 
-        {/* todo:testimonial  */}
         <Footer />
 
       </div>
