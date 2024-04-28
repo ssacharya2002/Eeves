@@ -127,7 +127,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({
       setButtonLoader(true);
     }
     if (!user) {
-      return router.push("/sign-in");
+      return router.push(`/sign-in?redirect_url=${window.location.href}`);
     }
 
     if (ticketBought) {
