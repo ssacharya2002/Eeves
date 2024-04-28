@@ -6,6 +6,7 @@ import SearchInput from "@/components/search-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import prismadb from "@/lib/prismadb";
+import { Event } from "@prisma/client";
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -20,24 +21,31 @@ interface EventPageProps {
 
 const EventPage = async ({ searchParams }: EventPageProps) => {
   const categories = await prismadb.category.findMany();
-  const events = await prismadb.event.findMany({
-    where: {
-      dateTime: {
-        gte: new Date(),
+
+  var events: Event[] = [];
+
+  try {
+    events = await prismadb.event.findMany({
+      where: {
+        dateTime: {
+          gte: new Date(),
+        },
+        name: {
+          search: searchParams.name,
+        },
+        city: {
+          search: searchParams.city,
+        },
+        categoryId: searchParams.categoryId,
+        isArchived: false,
       },
-      name: {
-        search: searchParams.name,
+      orderBy: {
+        ticketSold: "desc",
       },
-      city: {
-        search: searchParams.city,
-      },
-      categoryId: searchParams.categoryId,
-      isArchived: false,
-    },
-    orderBy: {
-      ticketSold: "desc",
-    },
-  });
+    });
+  } catch (error) {
+    events = [];
+  }
 
   return (
     <div className="px-10">
